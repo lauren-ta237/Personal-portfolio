@@ -1,6 +1,6 @@
 import { Project, Experience, Education, Certification } from './types';
 
-import avatarImg from './assets/images/laurenta_profile_portrait_1783443557122.jpg';
+import avatarImg from './assets/images/laurenta_profile.jpg';
 import projectRetailImg from './assets/images/project_retail_analytics_1783443580724.jpg';
 import projectProductImg from './assets/images/project_product_ai_1783443596345.jpg';
 import projectSkuImg from './assets/images/project_sku_enricher_1783443610818.jpg';
@@ -92,7 +92,7 @@ export const projectsList: Project[] = [
     category: "fullstack",
     tags: ["FastAPI", "PostgreSQL", "Google Vision AI", "React", "Tailwind CSS"],
     githubUrl: "https://github.com/lauren-ta237/Smart-Retail-Analytic-Sytem",
-    liveUrl: "https://smart-retail.laurenta.dev",
+    // liveUrl: "https://smart-retail.laurenta.dev",
     imageUrl: projectRetailImg,
     description: "An intelligent, data-driven visual system designed to help retailers monitor store inventory levels, track visitor flow, and recognize items on shelves automatically in real time.",
     longDescription: "The Smart Retail Analytics System is an enterprise-grade solution that connects computer vision to retail inventory pipelines. By analyzing live camera feeds or static photos of store shelves, the system identifies missing items, monitors stock counts, and generates intelligent recommendations. It features a complete analytics dashboard that gives store owners clear visual reports on daily foot traffic, heatmaps of popular zones, and instant low-stock alerts.",
