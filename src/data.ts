@@ -2,7 +2,7 @@ import { Project, Experience, Education, Certification } from './types';
 
 import avatarImg from './assets/images/laurenta_profile.jpg';
 import projectRetailImg from './assets/images/project_retail_analytics_1783443580724.jpg';
-import projectProductImg from './assets/images/project_product_ai_1783443596345.jpg';
+import projectProductImg from './assets/images/smart_product_ai.png';
 import projectSkuImg from './assets/images/project_sku_enricher_1783443610818.jpg';
 import projectAuthImg from './assets/images/project_auth_boilerplate_1783443623692.jpg';
 
@@ -23,7 +23,7 @@ export const educationList: Education[] = [
   {
     degree: "Bachelor of Science (B.Sc.) in Data Science and Artificial Intelligence",
     institution: "University of Bamenda (UBa)",
-    period: "2023 — Present (Final Year Undergraduate)",
+    period: "2024 — Present (Final Year Undergraduate)",
     location: "Bamenda, Cameroon",
     highlights: [
       "Specializing in Machine Learning pipelines, Computer Vision architectures, and Relational Database designs.",
