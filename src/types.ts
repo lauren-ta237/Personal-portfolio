@@ -13,6 +13,7 @@ export interface Project {
   category: 'ai' | 'backend' | 'frontend' | 'fullstack';
   githubUrl?: string;
   liveUrl?: string;
+  imageUrl?: string;
   keyFeatures: string[];
   techStack: TechSection[];
   achievements?: string[];

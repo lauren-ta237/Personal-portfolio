@@ -120,65 +120,38 @@ export default function Hero({ onOpenResume, onExploreProjects }: HeroProps) {
 
           </div>
 
-          {/* Interactive Graph Animation Column (5 of 12) */}
+          {/* Profile Photo Column (5 of 12) */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="w-full max-w-sm aspect-square bg-white rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-100 p-6 md:p-8 flex flex-col justify-between relative overflow-hidden"
+              className="relative group"
             >
-              {/* Glass decorative glow */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/10 rounded-full filter blur-xl" />
+              {/* Decorative glowing background ring */}
+              <div className="absolute -inset-1.5 bg-gradient-to-r from-indigo-500 to-slate-400 rounded-[2.2rem] blur-md opacity-25 group-hover:opacity-45 transition duration-1000" />
               
-              {/* Animated visual node network */}
-              <div className="flex-1 flex flex-col justify-center items-center py-6 relative">
-                {/* Visual bounding boxes overlay simulating CV */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-dashed border-indigo-400/40 rounded-full animate-spin [animation-duration:40s]" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 border border-dotted border-indigo-300/60 rounded-full animate-spin [animation-duration:20s]" />
+              <div className="relative w-full max-w-[340px] aspect-square bg-white rounded-3xl border border-slate-200 p-3 shadow-xl">
+                {/* Visual computer vision camera boundary simulation */}
+                <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-indigo-500/80 rounded-tl-xl -mt-0.5 -ml-0.5" />
+                <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-indigo-500/80 rounded-tr-xl -mt-0.5 -mr-0.5" />
+                <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-indigo-500/80 rounded-bl-xl -mb-0.5 -ml-0.5" />
+                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-indigo-500/80 rounded-br-xl -mb-0.5 -mr-0.5" />
                 
-                {/* Central Brain/AI Icon */}
-                <div className="relative z-10 w-16 h-16 bg-indigo-50 border border-indigo-200 text-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-100 animate-pulse">
-                  <BrainCircuit className="w-8 h-8" />
-                </div>
-
-                {/* Satellite data nodes */}
-                <div className="absolute top-4 left-6 px-2.5 py-1 bg-white border border-slate-200/80 rounded-lg shadow-xs flex items-center gap-1.5 animate-bounce [animation-delay:0.5s]">
-                  <Database className="w-3.5 h-3.5 text-blue-500" />
-                  <span className="font-mono text-[9px] text-slate-600 font-bold">FastAPI / DB</span>
-                </div>
-
-                <div className="absolute bottom-6 right-4 px-2.5 py-1 bg-white border border-slate-200/80 rounded-lg shadow-xs flex items-center gap-1.5 animate-bounce [animation-delay:1.2s]">
-                  <span className="w-2 h-2 rounded-full bg-indigo-500" />
-                  <span className="font-mono text-[9px] text-slate-600 font-bold">Vision AI</span>
-                </div>
-
-                <div className="absolute top-12 right-6 px-2.5 py-1 bg-indigo-900 text-white rounded-lg shadow-md flex items-center gap-1.5 animate-bounce [animation-delay:1.8s]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                  <span className="font-mono text-[9px] font-bold">Gemini API</span>
-                </div>
-
-                <div className="absolute bottom-8 left-4 px-2.5 py-1 bg-white border border-slate-200/80 rounded-lg shadow-xs flex items-center gap-1.5 animate-bounce [animation-delay:0s]">
-                  <span className="font-mono text-[9.5px] text-slate-500 font-bold font-mono">React / TS</span>
+                {/* Profile Photo Image */}
+                <img
+                  src={portfolioOwner.avatarUrl}
+                  alt={portfolioOwner.avatarAlt}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover rounded-2xl filter grayscale-[15%] group-hover:grayscale-0 transition-all duration-500"
+                />
+                
+                {/* CV confidence label overlay */}
+                <div className="absolute bottom-6 left-6 px-3 py-1.5 bg-slate-900/95 backdrop-blur-xs text-white rounded-xl shadow-lg border border-slate-700/50 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="font-mono text-[10px] uppercase tracking-wider font-bold">Nsambu_Laurenta_Angehwri [99.9%]</span>
                 </div>
               </div>
-
-              {/* Quick Profile Summary Stats inside card */}
-              <div className="border-t border-slate-100 pt-5 mt-auto grid grid-cols-3 gap-2 text-center bg-slate-50/50 -mx-6 -mb-6 p-4 rounded-b-3xl">
-                <div>
-                  <p className="text-xs text-slate-500 font-mono">Internships</p>
-                  <p className="text-sm font-bold text-slate-800 mt-0.5">2 Programs</p>
-                </div>
-                <div className="border-x border-slate-200/80">
-                  <p className="text-xs text-slate-500 font-mono">Stack Projects</p>
-                  <p className="text-sm font-bold text-slate-800 mt-0.5">4 Enriched</p>
-                </div>
-                <div>
-                  <p className="text-xs text-slate-500 font-mono">Degree Year</p>
-                  <p className="text-sm font-bold text-indigo-600 mt-0.5">Final Year</p>
-                </div>
-              </div>
-
             </motion.div>
           </div>
 

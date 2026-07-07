@@ -1,5 +1,11 @@
 import { Project, Experience, Education, Certification } from './types';
 
+import avatarImg from './assets/images/laurenta_profile_portrait_1783443557122.jpg';
+import projectRetailImg from './assets/images/project_retail_analytics_1783443580724.jpg';
+import projectProductImg from './assets/images/project_product_ai_1783443596345.jpg';
+import projectSkuImg from './assets/images/project_sku_enricher_1783443610818.jpg';
+import projectAuthImg from './assets/images/project_auth_boilerplate_1783443623692.jpg';
+
 export const portfolioOwner = {
   name: "Nsambu Laurenta Angehwri",
   title: "Data Scientist, AI Engineer & Full Stack Developer",
@@ -9,7 +15,8 @@ export const portfolioOwner = {
   github: "https://github.com/lauren-ta237",
   linkedin: "https://www.linkedin.com/in/nsambu-laurenta-06992334b",
   bio: "A final-year Data Science and AI undergraduate at the University of Bamenda, Cameroon. Passionate about solving complex real-world challenges by engineering production-ready web platforms, designing secure and highly scalable backend APIs, and building computer vision and generative AI applications.",
-  avatarAlt: "Nsambu Laurenta Angehwri"
+  avatarAlt: "Nsambu Laurenta Angehwri",
+  avatarUrl: avatarImg
 };
 
 export const educationList: Education[] = [
@@ -85,6 +92,8 @@ export const projectsList: Project[] = [
     category: "fullstack",
     tags: ["FastAPI", "PostgreSQL", "Google Vision AI", "React", "Tailwind CSS"],
     githubUrl: "https://github.com/lauren-ta237/Smart-Retail-Analytic-Sytem",
+    liveUrl: "https://smart-retail.laurenta.dev",
+    imageUrl: projectRetailImg,
     description: "An intelligent, data-driven visual system designed to help retailers monitor store inventory levels, track visitor flow, and recognize items on shelves automatically in real time.",
     longDescription: "The Smart Retail Analytics System is an enterprise-grade solution that connects computer vision to retail inventory pipelines. By analyzing live camera feeds or static photos of store shelves, the system identifies missing items, monitors stock counts, and generates intelligent recommendations. It features a complete analytics dashboard that gives store owners clear visual reports on daily foot traffic, heatmaps of popular zones, and instant low-stock alerts.",
     keyFeatures: [
@@ -124,6 +133,9 @@ export const projectsList: Project[] = [
     subtitle: "Automated Product Classification & AI Ingestion Pipeline",
     category: "ai",
     tags: ["Gemini AI", "Google Vision AI", "Computer Vision", "FastAPI"],
+    githubUrl: "https://github.com/lauren-ta237",
+    liveUrl: "https://product-ai.laurenta.dev",
+    imageUrl: projectProductImg,
     description: "A computer vision API service that automatically processes, crops, and metadata-enriches product images for quick database ingestion and catalog classification.",
     longDescription: "Smart Product AI solves the tedious issue of manual product onboarding in e-commerce and physical retail systems. This backend platform ingests raw product photos, isolates the focal product from the background, runs label extraction using Google Vision AI, and passes the high-level labels to the Gemini API to output structured, validated JSON data containing product names, categories, brands, estimated weights, and catalog numbers.",
     keyFeatures: [
@@ -163,6 +175,9 @@ export const projectsList: Project[] = [
     subtitle: "High-Throughput Relational Database Ingestion pipeline",
     category: "backend",
     tags: ["Python", "SQLAlchemy", "PostgreSQL", "Alembic", "FastAPI"],
+    githubUrl: "https://github.com/lauren-ta237",
+    liveUrl: "https://sku-enricher.laurenta.dev/docs",
+    imageUrl: projectSkuImg,
     description: "A secure, high-throughput relational backend architecture built to process product streams, validate data, and maintain migration records with zero downtime.",
     longDescription: "This database-centric project establishes a reliable relational foundation for large enterprise inventories. The platform ingests inconsistent bulk product lists from supplier spreadsheets, runs cleansing models, and writes enriched data into a PostgreSQL relational schema. Using SQLAlchemy associations and Alembic, the database schema handles hundreds of thousands of individual SKU records with relational efficiency, optimized indices, and foreign key cascades.",
     keyFeatures: [
@@ -202,6 +217,9 @@ export const projectsList: Project[] = [
     subtitle: "Enterprise Authentication & User State Management Template",
     category: "frontend",
     tags: ["React", "TypeScript", "Tailwind CSS", "JWT Authentication", "Axios"],
+    githubUrl: "https://github.com/lauren-ta237",
+    liveUrl: "https://fastapi-react-auth.laurenta.dev",
+    imageUrl: projectAuthImg,
     description: "A production-grade full-stack template featuring secure token rotation, cookies configuration, automatic Axios refresh interceptors, and a responsive admin dashboard.",
     longDescription: "Many startups struggle to implement secure, reliable user authorization. This full-stack boilerplate provides a pristine, battle-tested standard. The backend (FastAPI) handles encrypted password verification, cookie generation, and JWT token rotation. The frontend (React, TypeScript) features a global auth context, login routes protection, beautiful loading states, and Axios interceptors that seamlessly refresh access tokens on expire notifications.",
     keyFeatures: [

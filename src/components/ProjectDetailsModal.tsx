@@ -48,6 +48,18 @@ export default function ProjectDetailsModal({ project, isOpen, onClose }: Projec
             <div className="flex-1 overflow-y-auto px-6 py-8 md:px-12 md:py-10">
               <div className="max-w-5xl mx-auto">
                 
+                {/* Project Wide Banner Image */}
+                {project.imageUrl && (
+                  <div className="w-full aspect-[16/9] md:aspect-[2.39/1] overflow-hidden rounded-2xl mb-8 bg-slate-50 border border-slate-200 shadow-sm relative">
+                    <img
+                      src={project.imageUrl}
+                      alt={project.title}
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+
                 {/* Header Info */}
                 <div className="border-b border-slate-100 pb-6 mb-8">
                   <div className="flex flex-wrap items-center gap-2 mb-3">
