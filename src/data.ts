@@ -1,11 +1,13 @@
 import { Project, Experience, Education, Certification } from './types';
 
-// Plain relative path strings to support both Vite frontend and Node backend execution
-const avatarImg = './assets/images/laurenta_profile.jpg';
-const projectRetailImg = './assets/images/project_retail_analytics_1783443580724.jpg';
-const projectProductImg = './assets/images/smart_product_ai.png';
-const projectSkuImg = './assets/images/project_sku_enricher_1783443610818.jpg';
-const projectAuthImg = './assets/images/project_auth_boilerplate_1783443623692.jpg';
+// ✨ THE VITE BUNDLER SOLVER:
+// Import the image files directly as modules so Vite correctly compiles, hashes, 
+// and resolves their true asset paths at runtime regardless of your folder alias structures!
+import avatarImg from './assets/images/laurenta_profile.jpg';
+import projectRetailImg from './assets/images/project_retail_analytics_1783443580724.jpg';
+import projectProductImg from './assets/images/smart_product_ai.png';
+import projectSkuImg from './assets/images/project_sku_enricher_1783443610818.jpg';
+import projectAuthImg from './assets/images/project_auth_boilerplate_1783443623692.jpg';
 
 export const portfolioOwner = {
   name: "Nsambu Laurenta Angehwri",
@@ -268,7 +270,6 @@ export const SUGGESTED_QUESTIONS = [
   "How can I get in touch with you?"
 ];
 
-// Add these mappings at the bottom of src/data.ts so server/rag.ts finds exactly what it wants
 export const PROJECTS = projectsList;
 export const EDUCATION = educationList;
 export const EXPERIENCES = experienceList;
