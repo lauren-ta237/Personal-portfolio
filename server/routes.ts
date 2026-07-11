@@ -27,100 +27,121 @@ apiRouter.post('/chat', async (req, res) => {
       parts: [{ text: m.content }]
     }));
 
+    let quotaExceeded = false;
+
     // Loop to handle up to 5 iterative function call passes from the LLM
     for (let iter = 0; iter < 5; iter++) {
-      const response = await ai.models.generateContent({
+      try {
+        const response = await ai.models.generateContent({
+          model: 'gemini-3.5-flash',
+          contents,
+          config: {
+            systemInstruction: SYSTEM_INSTRUCTION,
+            temperature: 0.3,
+            tools: ALL_TOOLS,
+          }
+        });
+
+        const functionCalls = response.functionCalls;
+
+        if (functionCalls && functionCalls.length > 0) {
+          console.log(`[RAG-Tool] Gemini invoked:`, functionCalls.map(f => f.name));
+
+          // 1. Add model's request containing function calls directly to content history
+          const modelContent = response.candidates?.[0]?.content;
+          if (modelContent) {
+            contents.push(modelContent);
+          } else {
+            contents.push({
+              role: 'model',
+              parts: functionCalls.map(f => ({ functionCall: f }))
+            });
+          }
+
+          // 2. Perform local data extraction and form standard key-value responses
+          const responseParts = [];
+          for (const call of functionCalls) {
+            const name = call.name;
+            const handler = name ? toolHandlers[name] : undefined;
+            const result = handler ? handler() : { error: `Tool ${name} is not implemented.` };
+
+            // ✨ THE COMPATIBILITY SOLVER:
+            let structuredOutput: Record<string, any> = {};
+
+            if (Array.isArray(result)) {
+              const keyName = name.toLowerCase().replace('get', '');
+              structuredOutput[keyName || 'data'] = result;
+            } else if (typeof result === 'object' && result !== null) {
+              structuredOutput = { ...result };
+            } else {
+              structuredOutput = { result };
+            }
+
+            responseParts.push({
+              functionResponse: {
+                name: call.name,
+                response: structuredOutput
+              }
+            });
+          }
+
+          // 3. Append the execution output with role 'user'
+          contents.push({
+            role: 'user',
+            parts: responseParts
+          });
+
+        } else {
+          break;
+        }
+      } catch (innerError: any) {
+        if (innerError.status === 429) {
+          quotaExceeded = true;
+          break; // Break the function loop cleanly
+        }
+        throw innerError;
+      }
+    }
+
+    // 🛑 If a quota error was hit during the loop OR downstream, immediately return the fallback message
+    if (quotaExceeded) {
+      console.warn("⚠️ Gemini Quota exceeded! Serving layout fallback message.");
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      res.end("Hi there! I am Nsambu Laurenta's custom AI portfolio assistant. It looks like my live background API integration has hit its free tier usage threshold for the moment, but my local components are working perfectly. Feel free to explore the interactive technical sections above to learn more about my background in Data Science, AI engineering, and full-stack applications!");
+      return;
+    }
+
+    // Stream the final generated answer to the client using Server-Sent Events
+    try {
+      const responseStream = await ai.models.generateContentStream({
         model: 'gemini-3.5-flash',
         contents,
         config: {
           systemInstruction: SYSTEM_INSTRUCTION,
-          temperature: 0.3,
+          temperature: 0.4,
           tools: ALL_TOOLS,
         }
       });
 
-      const functionCalls = response.functionCalls;
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      res.setHeader('Transfer-Encoding', 'chunked');
 
-      if (functionCalls && functionCalls.length > 0) {
-        console.log(`[RAG-Tool] Gemini invoked:`, functionCalls.map(f => f.name));
-
-        // 1. Add model's request containing function calls directly to content history
-        const modelContent = response.candidates?.[0]?.content;
-        if (modelContent) {
-          contents.push(modelContent);
-        } else {
-          contents.push({
-            role: 'model',
-            parts: functionCalls.map(f => ({ functionCall: f }))
-          });
+      for await (const chunk of responseStream) {
+        if (chunk.text) {
+          res.write(chunk.text);
         }
-
-        // 2. Perform local data extraction and form standard key-value responses
-        const responseParts = [];
-        for (const call of functionCalls) {
-          const name = call.name;
-          const handler = name ? toolHandlers[name] : undefined;
-          const result = handler ? handler() : { error: `Tool ${name} is not implemented.` };
-
-          // ✨ THE COMPATIBILITY SOLVER:
-          // The SDK requires a pure key-value object block for the tool response.
-          // If the tool returns a primitive or a raw array (like list of skills/projects),
-          // it MUST be cleanly mapped into an explicit object property.
-          let structuredOutput: Record<string, any> = {};
-
-          if (Array.isArray(result)) {
-            // Converts raw array results into an object wrapper, e.g., { skills: [...] }
-            const keyName = name.toLowerCase().replace('get', '');
-            structuredOutput[keyName || 'data'] = result;
-          } else if (typeof result === 'object' && result !== null) {
-            structuredOutput = { ...result };
-          } else {
-            structuredOutput = { result };
-          }
-
-          // In the modern SDK, pass the pure structured object directly to the response block
-          responseParts.push({
-            functionResponse: {
-              name: call.name,
-              response: structuredOutput
-            }
-          });
-        }
-
-        // 3. Append the execution output with role 'user'
-        contents.push({
-          role: 'user',
-          parts: responseParts
-        });
-
-        // Continue loop to feed answers back to model
-      } else {
-        // No more function calls, we have the final text generation!
-        break;
       }
+
+      res.end();
+    } catch (streamError: any) {
+      if (streamError.status === 429) {
+        console.warn("⚠️ Gemini Quota exceeded during response streaming! Activating fallback message.");
+        res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+        res.end("Hi there! I am Nsambu Laurenta's custom AI portfolio assistant. It looks like my live background API integration has hit its free tier usage threshold for the moment, but my local components are working perfectly. Feel free to explore the interactive technical sections above to learn more about my background in Data Science, AI engineering, and full-stack applications!");
+        return;
+      }
+      throw streamError;
     }
-
-    // Stream the final generated answer to the client using Server-Sent Events
-    const responseStream = await ai.models.generateContentStream({
-      model: 'gemini-3.5-flash',
-      contents,
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
-        temperature: 0.4,
-        tools: ALL_TOOLS,
-      }
-    });
-
-    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.setHeader('Transfer-Encoding', 'chunked');
-
-    for await (const chunk of responseStream) {
-      if (chunk.text) {
-        res.write(chunk.text);
-      }
-    }
-
-    res.end();
 
   } catch (error: any) {
     console.error('Error in RAG routing endpoint:', error);

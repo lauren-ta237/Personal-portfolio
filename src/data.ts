@@ -1,13 +1,13 @@
 import { Project, Experience, Education, Certification } from './types';
 
-// ✨ THE VITE BUNDLER SOLVER:
-// Import the image files directly as modules so Vite correctly compiles, hashes, 
-// and resolves their true asset paths at runtime regardless of your folder alias structures!
-import avatarImg from './assets/images/laurenta_profile.jpg';
-import projectRetailImg from './assets/images/project_retail_analytics_1783443580724.jpg';
-import projectProductImg from './assets/images/smart_product_ai.png';
-import projectSkuImg from './assets/images/project_sku_enricher_1783443610818.jpg';
-import projectAuthImg from './assets/images/project_auth_boilerplate_1783443623692.jpg';
+// ✨ THE COMPATIBILITY SOLVER:
+// Instead of importing images as module variables (which crashes Node/tsx on the backend),
+// we use absolute public path paths or direct relative strings that both Vite and Node can safely read.
+const avatarImg = '/src/assets/images/laurenta_profile.jpg';
+const projectRetailImg = '/src/assets/images/project_retail_analytics_1783443580724.jpg';
+const projectProductImg = '/src/assets/images/smart_product_ai.png';
+const projectSkuImg = '/src/assets/images/project_sku_enricher_1783443610818.jpg';
+const projectAuthImg = '/src/assets/images/project_auth_boilerplate_1783443623692.jpg';
 
 export const portfolioOwner = {
   name: "Nsambu Laurenta Angehwri",
