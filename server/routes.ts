@@ -5,6 +5,28 @@ import { toolHandlers, ALL_TOOLS } from './rag.js';
 
 export const apiRouter = express.Router();
 
+// ✨ 1. Define a basic Cache structure
+interface CacheEntry {
+  text: string;
+  expiresAt: number;
+}
+
+// In-memory key-value store (Key: deterministic hash or stringified messages array)
+const queryCache = new Map<string, CacheEntry>();
+
+// Set a Time-to-Live (TTL) of 30 minutes for cached responses
+const CACHE_TTL_MS = 30 * 60 * 1000; 
+
+// Promise-based sleep helper utility
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Helper function to create a unique cache key from incoming chat messages
+const generateCacheKey = (messages: any[]): string => {
+  return JSON.stringify(
+    messages.map(m => ({ role: m.role, content: m.content?.trim().toLowerCase() }))
+  );
+};
+
 apiRouter.post('/chat', async (req, res) => {
   try {
     const { messages } = req.body;
@@ -21,6 +43,23 @@ apiRouter.post('/chat', async (req, res) => {
       return;
     }
 
+    // ✨ 2. Check the Cache before processing anything
+    const cacheKey = generateCacheKey(messages);
+    const cachedItem = queryCache.get(cacheKey);
+
+    if (cachedItem) {
+      if (Date.now() < cachedItem.expiresAt) {
+        console.log('[Cache-Hit] Serving answer instantly from server memory.');
+        res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+        res.write(cachedItem.text);
+        res.end();
+        return;
+      } else {
+        // Evict expired entries
+        queryCache.delete(cacheKey);
+      }
+    }
+
     // Structure conversation history for Gemini's API layout
     const contents: any[] = messages.map((m: { role: string; content: string }) => ({
       role: m.role === 'assistant' ? 'model' : 'user',
@@ -32,6 +71,11 @@ apiRouter.post('/chat', async (req, res) => {
     // Loop to handle up to 5 iterative function call passes from the LLM
     for (let iter = 0; iter < 5; iter++) {
       try {
+        if (iter > 0) {
+          console.log(`[RAG-Throttle] Pausing for 1200ms before tool iteration pass ${iter + 1} to prevent 429 burst flags...`);
+          await sleep(1200);
+        }
+
         const response = await ai.models.generateContent({
           model: 'gemini-3.5-flash',
           contents,
@@ -47,7 +91,6 @@ apiRouter.post('/chat', async (req, res) => {
         if (functionCalls && functionCalls.length > 0) {
           console.log(`[RAG-Tool] Gemini invoked:`, functionCalls.map(f => f.name));
 
-          // 1. Add model's request containing function calls directly to content history
           const modelContent = response.candidates?.[0]?.content;
           if (modelContent) {
             contents.push(modelContent);
@@ -58,18 +101,14 @@ apiRouter.post('/chat', async (req, res) => {
             });
           }
 
-          // 2. Perform local data extraction and form standard key-value responses
           const responseParts = [];
           for (const call of functionCalls) {
             const name = call.name;
             const handler = name ? toolHandlers[name] : undefined;
             
-            // Resolve the tool execution cleanly
             const result = handler ? await handler() : { error: `Tool ${name} is not implemented.` };
-
             console.log(`[RAG-Tool-Result] Data payload retrieved for ${name}:`, result);
 
-            // Since all handlers now consistently return envelope objects, pass them through or fall back defensively
             const structuredOutput = typeof result === 'object' && result !== null ? result : { result };
 
             responseParts.push({
@@ -80,7 +119,6 @@ apiRouter.post('/chat', async (req, res) => {
             });
           }
 
-          // 3. Append the execution output with role 'user'
           contents.push({
             role: 'user',
             parts: responseParts
@@ -92,13 +130,12 @@ apiRouter.post('/chat', async (req, res) => {
       } catch (innerError: any) {
         if (innerError.status === 429) {
           quotaExceeded = true;
-          break; // Break the function loop cleanly
+          break; 
         }
         throw innerError;
       }
     }
 
-    // 🛑 If a quota error was hit during the loop OR downstream, immediately return the fallback message
     if (quotaExceeded) {
       console.warn("⚠️ Gemini Quota exceeded! Serving layout fallback message.");
       res.setHeader('Content-Type', 'text/plain; charset=utf-8');
@@ -106,8 +143,14 @@ apiRouter.post('/chat', async (req, res) => {
       return;
     }
 
-    // Stream the final generated answer to the client using Server-Sent Events
+    // Stream final generated answer and aggregate text to store inside the cache
+    let completeResponseText = '';
     try {
+      if (contents.length > messages.length) {
+        console.log(`[RAG-Throttle] Pausing for 1200ms before starting final response stream extraction...`);
+        await sleep(1200);
+      }
+
       const responseStream = await ai.models.generateContentStream({
         model: 'gemini-3.5-flash',
         contents,
@@ -123,8 +166,18 @@ apiRouter.post('/chat', async (req, res) => {
 
       for await (const chunk of responseStream) {
         if (chunk.text) {
+          completeResponseText += chunk.text; // ✨ Accumulate the streaming response
           res.write(chunk.text);
         }
+      }
+
+      // ✨ 3. Save the full result to cache before ending the stream response
+      if (completeResponseText.trim().length > 0) {
+        queryCache.set(cacheKey, {
+          text: completeResponseText,
+          expiresAt: Date.now() + CACHE_TTL_MS
+        });
+        console.log('[Cache-Save] Successfully saved generated response to cache memory.');
       }
 
       res.end();

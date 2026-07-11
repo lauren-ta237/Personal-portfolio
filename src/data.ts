@@ -14,7 +14,7 @@ export const portfolioOwner = {
   title: "Data Scientist, AI Engineer & Full Stack Developer",
   location: "Bamenda, Cameroon",
   email: "laurantino01@gmail.com",
-  phone: "(+237) 675 965 385",
+  phone: "((+237) 675 965 385",
   github: "https://github.com/lauren-ta237",
   linkedin: "https://www.linkedin.com/in/nsambu-laurenta-06992334b",
   bio: "A final-year Data Science and AI undergraduate at the University of Bamenda, Cameroon. Passionate about solving complex real-world challenges by engineering production-ready web platforms, designing secure and highly scalable backend APIs, and building computer vision and generative AI applications.",
@@ -260,7 +260,7 @@ export const achievementsList: string[] = [
   "Developed secure JWT-based multi-tenant authentication systems protecting sensitive enterprise platforms.",
   "Built responsive, interactive dashboards in React, showcasing rich data insights for analytical systems.",
   "Implemented optimized PostgreSQL database architectures using SQLAlchemy associations and Alembic migrations.",
-  "Created an automated SKU enrichment pipeline leveraging generative AI to reduce manual input by 85%."
+  "Created an automated SKU enrichment pipeline leveraging generative AI to reduce manual input by 85%"
 ];
 
 export const SUGGESTED_QUESTIONS = [
@@ -275,7 +275,9 @@ export const EDUCATION = educationList;
 export const EXPERIENCES = experienceList;
 export const PERSONAL_BIO = portfolioOwner.bio;
 export const RESUME = "Link to resume or copy of profileOwner details";
-export const SKILLS = [
+
+// Deduplicated array mapping using JS Set syntax
+export const SKILLS = Array.from(new Set([
   ...experienceList.flatMap(exp => exp.skills),
   "Python", "FastAPI", "SQLAlchemy", "PostgreSQL", "React", "TypeScript", "Tailwind CSS", "Computer Vision", "Gemini AI"
-];
+]));
