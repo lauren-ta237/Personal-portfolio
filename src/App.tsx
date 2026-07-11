@@ -11,6 +11,7 @@ import ProjectCard from './components/ProjectCard';
 import ProjectDetailsModal from './components/ProjectDetailsModal';
 import ResumeViewer from './components/ResumeViewer';
 import Contact from './components/Contact';
+import AIButton from './components/AIButton';
 
 import { projectsList, portfolioOwner } from './data';
 import { Project } from './types';
@@ -280,13 +281,16 @@ export default function App() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="fixed bottom-6 right-6 p-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl shadow-lg z-30 transition-all cursor-pointer focus:outline-none"
+            className="fixed bottom-24 right-6 p-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl shadow-lg z-30 transition-all cursor-pointer focus:outline-none"
             title="Scroll to top"
           >
             <ArrowUp className="w-5 h-5" />
           </motion.button>
         )}
       </AnimatePresence>
+
+      {/* Interactive AI Agent Portal Floating Widget */}
+      <AIButton />
 
     </div>
   );

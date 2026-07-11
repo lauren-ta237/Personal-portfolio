@@ -1,10 +1,11 @@
 import { Project, Experience, Education, Certification } from './types';
 
-import avatarImg from './assets/images/laurenta_profile.jpg';
-import projectRetailImg from './assets/images/project_retail_analytics_1783443580724.jpg';
-import projectProductImg from './assets/images/smart_product_ai.png';
-import projectSkuImg from './assets/images/project_sku_enricher_1783443610818.jpg';
-import projectAuthImg from './assets/images/project_auth_boilerplate_1783443623692.jpg';
+// Plain relative path strings to support both Vite frontend and Node backend execution
+const avatarImg = './assets/images/laurenta_profile.jpg';
+const projectRetailImg = './assets/images/project_retail_analytics_1783443580724.jpg';
+const projectProductImg = './assets/images/smart_product_ai.png';
+const projectSkuImg = './assets/images/project_sku_enricher_1783443610818.jpg';
+const projectAuthImg = './assets/images/project_auth_boilerplate_1783443623692.jpg';
 
 export const portfolioOwner = {
   name: "Nsambu Laurenta Angehwri",
@@ -92,7 +93,6 @@ export const projectsList: Project[] = [
     category: "fullstack",
     tags: ["FastAPI", "PostgreSQL", "Google Vision AI", "React", "Tailwind CSS"],
     githubUrl: "https://github.com/lauren-ta237/Smart-Retail-Analytic-Sytem",
-    // liveUrl: "https://smart-retail.laurenta.dev",
     imageUrl: projectRetailImg,
     description: "An intelligent, data-driven visual system designed to help retailers monitor store inventory levels, track visitor flow, and recognize items on shelves automatically in real time.",
     longDescription: "The Smart Retail Analytics System is an enterprise-grade solution that connects computer vision to retail inventory pipelines. By analyzing live camera feeds or static photos of store shelves, the system identifies missing items, monitors stock counts, and generates intelligent recommendations. It features a complete analytics dashboard that gives store owners clear visual reports on daily foot traffic, heatmaps of popular zones, and instant low-stock alerts.",
@@ -121,7 +121,7 @@ export const projectsList: Project[] = [
       { label: "Inventory Accuracy", value: "94.2%" },
       { label: "API Response Rate", value: "< 120ms" }
     ],
-    achievements: [
+    authorAchievements: [
       "Successfully integrated Google Vision AI to classify items across 12 distinct retail product categories.",
       "Designed and deployed a normalized PostgreSQL database schema supporting rapid reads of visual session events.",
       "Developed a responsive visual dashboard in React that displays custom-generated SKU analytics smoothly."
@@ -133,7 +133,7 @@ export const projectsList: Project[] = [
     subtitle: "Automated Product Classification & AI Ingestion Pipeline",
     category: "ai",
     tags: ["Gemini AI", "Google Vision AI", "Computer Vision", "FastAPI"],
-    githubUrl: "https://github.com/lauren-ta237",
+    githubUrl: "https://github.com/lauren-ta237/Smart-Product-Intelligence-",
     liveUrl: "https://product-ai.laurenta.dev",
     imageUrl: projectProductImg,
     description: "A computer vision API service that automatically processes, crops, and metadata-enriches product images for quick database ingestion and catalog classification.",
@@ -163,7 +163,7 @@ export const projectsList: Project[] = [
       { label: "Visual Text OCR", value: "98% Precision" },
       { label: "Catalog Scaling", value: "Unlimited" }
     ],
-    achievements: [
+    authorAchievements: [
       "Built a seamless multi-stage workflow pipeline that extracts and structures visual attributes without manual training data.",
       "Implemented intelligent exception handling for low-quality, blurry, or misaligned product uploads.",
       "Developed custom Pydantic models ensuring backend JSON schema compatibility with Shopify and custom databases."
@@ -205,7 +205,7 @@ export const projectsList: Project[] = [
       { label: "Migration Safety", value: "100% Validated" },
       { label: "Search Latency", value: "< 25ms" }
     ],
-    achievements: [
+    authorAchievements: [
       "Designed PostgreSQL index models that reduced lookup times for SKU barcodes and product brands by over 70%.",
       "Created transactional rollbacks protecting critical financial inventory transactions in the event of hardware disruptions.",
       "Built structured schema logs to track data updates and revisions made by individual inventory managers."
@@ -243,7 +243,7 @@ export const projectsList: Project[] = [
       { label: "Token Rotation", value: "Fully Automated" },
       { label: "Dashboard Load", value: "< 50ms" }
     ],
-    achievements: [
+    authorAchievements: [
       "Configured robust CORS and security policies to prevent cross-site request forgery and cookie hijacking.",
       "Authored clean React routing hooks that isolate authenticated views and prevent flicker during initial load.",
       "Provided customizable dashboard components featuring widgets for quick stats and account settings."
@@ -259,4 +259,22 @@ export const achievementsList: string[] = [
   "Built responsive, interactive dashboards in React, showcasing rich data insights for analytical systems.",
   "Implemented optimized PostgreSQL database architectures using SQLAlchemy associations and Alembic migrations.",
   "Created an automated SKU enrichment pipeline leveraging generative AI to reduce manual input by 85%."
+];
+
+export const SUGGESTED_QUESTIONS = [
+  "What technical skills do you have?",
+  "Tell me about your Smart Product AI project.",
+  "Are you open to remote web development roles?",
+  "How can I get in touch with you?"
+];
+
+// Add these mappings at the bottom of src/data.ts so server/rag.ts finds exactly what it wants
+export const PROJECTS = projectsList;
+export const EDUCATION = educationList;
+export const EXPERIENCES = experienceList;
+export const PERSONAL_BIO = portfolioOwner.bio;
+export const RESUME = "Link to resume or copy of profileOwner details";
+export const SKILLS = [
+  ...experienceList.flatMap(exp => exp.skills),
+  "Python", "FastAPI", "SQLAlchemy", "PostgreSQL", "React", "TypeScript", "Tailwind CSS", "Computer Vision", "Gemini AI"
 ];
