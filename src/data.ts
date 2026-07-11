@@ -1,13 +1,13 @@
 import { Project, Experience, Education, Certification } from './types';
 
-// ✨ THE COMPATIBILITY SOLVER:
-// Instead of importing images as module variables (which crashes Node/tsx on the backend),
-// we use absolute public path paths or direct relative strings that both Vite and Node can safely read.
-const avatarImg = '/src/assets/images/laurenta_profile.jpg';
-const projectRetailImg = '/src/assets/images/project_retail_analytics_1783443580724.jpg';
-const projectProductImg = '/src/assets/images/smart_product_ai.png';
-const projectSkuImg = '/src/assets/images/project_sku_enricher_1783443610818.jpg';
-const projectAuthImg = '/src/assets/images/project_auth_boilerplate_1783443623692.jpg';
+// ✨ THE COMPATIBILITY SOLVER (VITE + NODE RUNTIME SAFE):
+// We use the standard web-compatible asset URL constructor. 
+// Vite resolves these to real asset URLs for Vercel, while Node handles them as safe strings.
+const avatarImg = new URL('./assets/images/laurenta_profile.jpg', import.meta.url).href;
+const projectRetailImg = new URL('./assets/images/project_retail_analytics_1783443580724.jpg', import.meta.url).href;
+const projectProductImg = new URL('./assets/images/smart_product_ai.png', import.meta.url).href;
+const projectSkuImg = new URL('./assets/images/project_sku_enricher_1783443610818.jpg', import.meta.url).href;
+const projectAuthImg = new URL('./assets/images/project_auth_boilerplate_1783443623692.jpg', import.meta.url).href;
 
 export const portfolioOwner = {
   name: "Nsambu Laurenta Angehwri",
