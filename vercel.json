@@ -17,7 +17,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "server.ts"
+      "dest": "/$1"
     }
   ],
   "functions": {
