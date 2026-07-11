@@ -63,19 +63,14 @@ apiRouter.post('/chat', async (req, res) => {
           for (const call of functionCalls) {
             const name = call.name;
             const handler = name ? toolHandlers[name] : undefined;
-            const result = handler ? handler() : { error: `Tool ${name} is not implemented.` };
+            
+            // Resolve the tool execution cleanly
+            const result = handler ? await handler() : { error: `Tool ${name} is not implemented.` };
 
-            // ✨ THE COMPATIBILITY SOLVER:
-            let structuredOutput: Record<string, any> = {};
+            console.log(`[RAG-Tool-Result] Data payload retrieved for ${name}:`, result);
 
-            if (Array.isArray(result)) {
-              const keyName = name.toLowerCase().replace('get', '');
-              structuredOutput[keyName || 'data'] = result;
-            } else if (typeof result === 'object' && result !== null) {
-              structuredOutput = { ...result };
-            } else {
-              structuredOutput = { result };
-            }
+            // Since all handlers now consistently return envelope objects, pass them through or fall back defensively
+            const structuredOutput = typeof result === 'object' && result !== null ? result : { result };
 
             responseParts.push({
               functionResponse: {

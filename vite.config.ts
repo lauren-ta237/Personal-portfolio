@@ -10,12 +10,19 @@ export default defineConfig(() => {
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
-        // Change this to point directly to your frontend source folder (e.g., './src' or './client')
-        // so Vite stops evaluating server files as frontend modules!
+        // Points directly to your frontend source folder so Vite stops evaluating server files as frontend modules!
         '@': path.resolve(__dirname, './src'), 
       },
     },
     server: {
+      // Configure local development proxy to route API calls to the Express backend
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3000', // 👈 Change this to your Express server's port if different
+          changeOrigin: true,
+          secure: false,
+        },
+      },
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
       hmr: !isHmrDisabled,
       // Configure the file watcher safely

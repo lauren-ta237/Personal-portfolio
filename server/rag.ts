@@ -75,14 +75,15 @@ const getContactInformationDeclaration: FunctionDeclaration = {
 };
 
 // Map tool names to actual server data getters (RAG source of truth)
+// Map tool names to actual server data getters (RAG source of truth)
 export const toolHandlers: Record<string, () => any> = {
-  getProjects: () => PROJECTS,
-  getSkills: () => SKILLS,
-  getExperience: () => EXPERIENCES,
-  getEducation: () => EDUCATION,
+  getProjects: () => ({ projects: PROJECTS }),
+  getSkills: () => ({ skills: SKILLS }),
+  getExperience: () => ({ experience: EXPERIENCES }),
+  getEducation: () => ({ education: EDUCATION }),
   getGithub: () => ({ githubUrl: PERSONAL_BIO.github }),
   getLinkedIn: () => ({ linkedinUrl: PERSONAL_BIO.linkedin }),
-  getResume: () => RESUME,
+  getResume: () => ({ resume: RESUME }),
   getContactInformation: () => ({
     email: PERSONAL_BIO.email,
     location: PERSONAL_BIO.location,
