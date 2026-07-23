@@ -5,7 +5,7 @@ import { toolHandlers, ALL_TOOLS } from './rag.js';
 
 export const apiRouter = express.Router();
 
-// ✨ 1. Define a basic Cache structure
+// 1. Define a basic Cache structure
 interface CacheEntry {
   text: string;
   expiresAt: number;
@@ -43,7 +43,7 @@ apiRouter.post('/chat', async (req, res) => {
       return;
     }
 
-    // ✨ 2. Check the Cache before processing anything
+    // 2. Check the Cache before processing anything
     const cacheKey = generateCacheKey(messages);
     const cachedItem = queryCache.get(cacheKey);
 
@@ -71,9 +71,10 @@ apiRouter.post('/chat', async (req, res) => {
     // Loop to handle up to 5 iterative function call passes from the LLM
     for (let iter = 0; iter < 5; iter++) {
       try {
+        // ✨ Adjusted to 500ms to stay within Vercel's Serverless timeout profile
         if (iter > 0) {
-          console.log(`[RAG-Throttle] Pausing for 1200ms before tool iteration pass ${iter + 1} to prevent 429 burst flags...`);
-          await sleep(1200);
+          console.log(`[RAG-Throttle] Pausing for 500ms before tool iteration pass ${iter + 1} to prevent 429 burst flags...`);
+          await sleep(500);
         }
 
         const response = await ai.models.generateContent({
@@ -146,9 +147,10 @@ apiRouter.post('/chat', async (req, res) => {
     // Stream final generated answer and aggregate text to store inside the cache
     let completeResponseText = '';
     try {
+      // ✨ Adjusted to 500ms right before starting the final extraction stream
       if (contents.length > messages.length) {
-        console.log(`[RAG-Throttle] Pausing for 1200ms before starting final response stream extraction...`);
-        await sleep(1200);
+        console.log(`[RAG-Throttle] Pausing for 500ms before starting final response stream extraction...`);
+        await sleep(500);
       }
 
       const responseStream = await ai.models.generateContentStream({
@@ -166,12 +168,12 @@ apiRouter.post('/chat', async (req, res) => {
 
       for await (const chunk of responseStream) {
         if (chunk.text) {
-          completeResponseText += chunk.text; // ✨ Accumulate the streaming response
+          completeResponseText += chunk.text; // Accumulate the streaming response
           res.write(chunk.text);
         }
       }
 
-      // ✨ 3. Save the full result to cache before ending the stream response
+      // 3. Save the full result to cache before ending the stream response
       if (completeResponseText.trim().length > 0) {
         queryCache.set(cacheKey, {
           text: completeResponseText,

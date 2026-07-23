@@ -4,10 +4,10 @@ import { Project, Experience, Education, Certification } from './types';
 // We use the standard web-compatible asset URL constructor. 
 // Vite resolves these to real asset URLs for Vercel, while Node handles them as safe strings.
 const avatarImg = new URL('./assets/images/laurenta_profile.jpg', import.meta.url).href;
-const projectRetailImg = new URL('./assets/images/project_retail_analytics_1783443580724.jpg', import.meta.url).href;
+const projectRetailImg = new URL('./assets/images/retail_analytics.png', import.meta.url).href;
 const projectProductImg = new URL('./assets/images/smart_product_ai.png', import.meta.url).href;
-const projectSkuImg = new URL('./assets/images/project_sku_enricher_1783443610818.jpg', import.meta.url).href;
-const projectAuthImg = new URL('./assets/images/project_auth_boilerplate_1783443623692.jpg', import.meta.url).href;
+// const projectSkuImg = new URL('./assets/images/project_sku_enricher_1783443610818.jpg', import.meta.url).href;
+// const projectAuthImg = new URL('./assets/images/project_auth_boilerplate_1783443623692.jpg', import.meta.url).href;
 
 export const portfolioOwner = {
   name: "Nsambu Laurenta Angehwri",
@@ -136,7 +136,7 @@ export const projectsList: Project[] = [
     category: "ai",
     tags: ["Gemini AI", "Google Vision AI", "Computer Vision", "FastAPI"],
     githubUrl: "https://github.com/lauren-ta237/Smart-Product-Intelligence-",
-    liveUrl: "https://product-ai.laurenta.dev",
+    // liveUrl: "https://product-ai.laurenta.dev",
     imageUrl: projectProductImg,
     description: "A computer vision API service that automatically processes, crops, and metadata-enriches product images for quick database ingestion and catalog classification.",
     longDescription: "Smart Product AI solves the tedious issue of manual product onboarding in e-commerce and physical retail systems. This backend platform ingests raw product photos, isolates the focal product from the background, runs label extraction using Google Vision AI, and passes the high-level labels to the Gemini API to output structured, validated JSON data containing product names, categories, brands, estimated weights, and catalog numbers.",
@@ -171,87 +171,87 @@ export const projectsList: Project[] = [
       "Developed custom Pydantic models ensuring backend JSON schema compatibility with Shopify and custom databases."
     ]
   },
-  {
-    id: "automated-sku-enricher",
-    title: "Automated SKU Enrichment Engine",
-    subtitle: "High-Throughput Relational Database Ingestion pipeline",
-    category: "backend",
-    tags: ["Python", "SQLAlchemy", "PostgreSQL", "Alembic", "FastAPI"],
-    githubUrl: "https://github.com/lauren-ta237",
-    liveUrl: "https://sku-enricher.laurenta.dev/docs",
-    imageUrl: projectSkuImg,
-    description: "A secure, high-throughput relational backend architecture built to process product streams, validate data, and maintain migration records with zero downtime.",
-    longDescription: "This database-centric project establishes a reliable relational foundation for large enterprise inventories. The platform ingests inconsistent bulk product lists from supplier spreadsheets, runs cleansing models, and writes enriched data into a PostgreSQL relational schema. Using SQLAlchemy associations and Alembic, the database schema handles hundreds of thousands of individual SKU records with relational efficiency, optimized indices, and foreign key cascades.",
-    keyFeatures: [
-      "Structured relational database schema with indexed multi-column search",
-      "Automated Alembic migration workflows with customized downgrade safeguards",
-      "Highly concurrent FastAPI ingest handlers capable of batch transactional writes",
-      "Custom SQLAlchemy relationships for product brands, suppliers, shelves, and stock levels"
-    ],
-    techStack: [
-      {
-        category: "Database & ORM",
-        items: ["PostgreSQL", "SQLAlchemy", "Alembic Migrations", "Database Index Optimizations"]
-      },
-      {
-        category: "Backend API Framework",
-        items: ["FastAPI", "Python 3.11", "JWT authentication headers", "Bcrypt hashing"]
-      },
-      {
-        category: "Testing & DevOps",
-        items: ["Pytest for endpoint integrity", "Docker Compose", "GitHub Actions CI/CD"]
-      }
-    ],
-    metrics: [
-      { label: "Database Load", value: "3x Faster Writes" },
-      { label: "Migration Safety", value: "100% Validated" },
-      { label: "Search Latency", value: "< 25ms" }
-    ],
-    authorAchievements: [
-      "Designed PostgreSQL index models that reduced lookup times for SKU barcodes and product brands by over 70%.",
-      "Created transactional rollbacks protecting critical financial inventory transactions in the event of hardware disruptions.",
-      "Built structured schema logs to track data updates and revisions made by individual inventory managers."
-    ]
-  },
-  {
-    id: "jwt-fastapi-boilerplate",
-    title: "Secure FastAPI & React Auth Boilerplate",
-    subtitle: "Enterprise Authentication & User State Management Template",
-    category: "frontend",
-    tags: ["React", "TypeScript", "Tailwind CSS", "JWT Authentication", "Axios"],
-    githubUrl: "https://github.com/lauren-ta237",
-    liveUrl: "https://fastapi-react-auth.laurenta.dev",
-    imageUrl: projectAuthImg,
-    description: "A production-grade full-stack template featuring secure token rotation, cookies configuration, automatic Axios refresh interceptors, and a responsive admin dashboard.",
-    longDescription: "Many startups struggle to implement secure, reliable user authorization. This full-stack boilerplate provides a pristine, battle-tested standard. The backend (FastAPI) handles encrypted password verification, cookie generation, and JWT token rotation. The frontend (React, TypeScript) features a global auth context, login routes protection, beautiful loading states, and Axios interceptors that seamlessly refresh access tokens on expire notifications.",
-    keyFeatures: [
-      "Secure JWT authentication with access token rotation and CSRF protection",
-      "Global state manager with React Context capturing profile details and role configurations",
-      "Axios request interceptors automatically appending credentials and handling 401 token renewals",
-      "Extremely clean responsive admin dashboard styled with a professional slate layout"
-    ],
-    techStack: [
-      {
-        category: "Frontend UI",
-        items: ["React", "TypeScript", "Tailwind CSS", "Lucide Icons", "Axios Client"]
-      },
-      {
-        category: "Backend security",
-        items: ["FastAPI (Python)", "PyJWT library", "Passlib with Crypt Context", "CORS policy control"]
-      }
-    ],
-    metrics: [
-      { label: "Audit Integrity", value: "A+ Grade" },
-      { label: "Token Rotation", value: "Fully Automated" },
-      { label: "Dashboard Load", value: "< 50ms" }
-    ],
-    authorAchievements: [
-      "Configured robust CORS and security policies to prevent cross-site request forgery and cookie hijacking.",
-      "Authored clean React routing hooks that isolate authenticated views and prevent flicker during initial load.",
-      "Provided customizable dashboard components featuring widgets for quick stats and account settings."
-    ]
-  }
-];
+//   {
+//     id: "automated-sku-enricher",
+//     title: "Automated SKU Enrichment Engine",
+//     subtitle: "High-Throughput Relational Database Ingestion pipeline",
+//     category: "backend",
+//     tags: ["Python", "SQLAlchemy", "PostgreSQL", "Alembic", "FastAPI"],
+//     githubUrl: "https://github.com/lauren-ta237",
+//     liveUrl: "https://sku-enricher.laurenta.dev/docs",
+//     imageUrl: projectSkuImg,
+//     description: "A secure, high-throughput relational backend architecture built to process product streams, validate data, and maintain migration records with zero downtime.",
+//     longDescription: "This database-centric project establishes a reliable relational foundation for large enterprise inventories. The platform ingests inconsistent bulk product lists from supplier spreadsheets, runs cleansing models, and writes enriched data into a PostgreSQL relational schema. Using SQLAlchemy associations and Alembic, the database schema handles hundreds of thousands of individual SKU records with relational efficiency, optimized indices, and foreign key cascades.",
+//     keyFeatures: [
+//       "Structured relational database schema with indexed multi-column search",
+//       "Automated Alembic migration workflows with customized downgrade safeguards",
+//       "Highly concurrent FastAPI ingest handlers capable of batch transactional writes",
+//       "Custom SQLAlchemy relationships for product brands, suppliers, shelves, and stock levels"
+//     ],
+//     techStack: [
+//       {
+//         category: "Database & ORM",
+//         items: ["PostgreSQL", "SQLAlchemy", "Alembic Migrations", "Database Index Optimizations"]
+//       },
+//       {
+//         category: "Backend API Framework",
+//         items: ["FastAPI", "Python 3.11", "JWT authentication headers", "Bcrypt hashing"]
+//       },
+//       {
+//         category: "Testing & DevOps",
+//         items: ["Pytest for endpoint integrity", "Docker Compose", "GitHub Actions CI/CD"]
+//       }
+//     ],
+//     metrics: [
+//       { label: "Database Load", value: "3x Faster Writes" },
+//       { label: "Migration Safety", value: "100% Validated" },
+//       { label: "Search Latency", value: "< 25ms" }
+//     ],
+//     authorAchievements: [
+//       "Designed PostgreSQL index models that reduced lookup times for SKU barcodes and product brands by over 70%.",
+//       "Created transactional rollbacks protecting critical financial inventory transactions in the event of hardware disruptions.",
+//       "Built structured schema logs to track data updates and revisions made by individual inventory managers."
+//     ]
+//   },
+//   {
+//     id: "jwt-fastapi-boilerplate",
+//     title: "Secure FastAPI & React Auth Boilerplate",
+//     subtitle: "Enterprise Authentication & User State Management Template",
+//     category: "frontend",
+//     tags: ["React", "TypeScript", "Tailwind CSS", "JWT Authentication", "Axios"],
+//     githubUrl: "https://github.com/lauren-ta237",
+//     liveUrl: "https://fastapi-react-auth.laurenta.dev",
+//     imageUrl: projectAuthImg,
+//     description: "A production-grade full-stack template featuring secure token rotation, cookies configuration, automatic Axios refresh interceptors, and a responsive admin dashboard.",
+//     longDescription: "Many startups struggle to implement secure, reliable user authorization. This full-stack boilerplate provides a pristine, battle-tested standard. The backend (FastAPI) handles encrypted password verification, cookie generation, and JWT token rotation. The frontend (React, TypeScript) features a global auth context, login routes protection, beautiful loading states, and Axios interceptors that seamlessly refresh access tokens on expire notifications.",
+//     keyFeatures: [
+//       "Secure JWT authentication with access token rotation and CSRF protection",
+//       "Global state manager with React Context capturing profile details and role configurations",
+//       "Axios request interceptors automatically appending credentials and handling 401 token renewals",
+//       "Extremely clean responsive admin dashboard styled with a professional slate layout"
+//     ],
+//     techStack: [
+//       {
+//         category: "Frontend UI",
+//         items: ["React", "TypeScript", "Tailwind CSS", "Lucide Icons", "Axios Client"]
+//       },
+//       {
+//         category: "Backend security",
+//         items: ["FastAPI (Python)", "PyJWT library", "Passlib with Crypt Context", "CORS policy control"]
+//       }
+//     ],
+//     metrics: [
+//       { label: "Audit Integrity", value: "A+ Grade" },
+//       { label: "Token Rotation", value: "Fully Automated" },
+//       { label: "Dashboard Load", value: "< 50ms" }
+//     ],
+//     authorAchievements: [
+//       "Configured robust CORS and security policies to prevent cross-site request forgery and cookie hijacking.",
+//       "Authored clean React routing hooks that isolate authenticated views and prevent flicker during initial load.",
+//       "Provided customizable dashboard components featuring widgets for quick stats and account settings."
+//     ]
+//   }
+// ];
 
 export const achievementsList: string[] = [
   "Built an AI-powered product recognition system for real-time item detection on shelves.",
