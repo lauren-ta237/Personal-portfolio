@@ -171,6 +171,7 @@ export const projectsList: Project[] = [
       "Developed custom Pydantic models ensuring backend JSON schema compatibility with Shopify and custom databases."
     ]
   },
+];
 //   {
 //     id: "automated-sku-enricher",
 //     title: "Automated SKU Enrichment Engine",
